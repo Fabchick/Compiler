@@ -8,69 +8,63 @@ using namespace std;
 
 int main()
 {
-	//1*0*0
-	cout << "Eingabe(1*0*0)[q to quit Eingabe]:";
+	//alle Dezimalzahlen mit neg. Vorzeichen ohne führende null
+
+	cout << "Eingabe[q to quit Eingabe]:";
 
 	char eingabe;
 	string kompletteEingabe;
 
 	//scanner
 
-	bool einsen = 1;
-	bool mindNull = 0;
+	bool syntax = 1;
+	bool quit = 0;
 
-	while (einsen == 1)
-	{
-
-		eingabe = _getche();
-		if (eingabe == 'q')
-			break;
-		kompletteEingabe += eingabe;
-
-		if (eingabe == '0')
-			einsen = 0;
-	} 
-
-	if(einsen==0)
-	do				//mind eine 0
-	{
+	do {
 
 		eingabe = _getche();
+		if (eingabe == '-')
+			syntax = 0;
 		if (eingabe == 'q')
+			quit = 1;
+		if (eingabe != '0')
 			break;
-
 		if (eingabe == '0')
-		{
+			cout << "\a";
+	
+	} while (eingabe == '0');
+
+	kompletteEingabe += eingabe;
+
+
+
+	while (quit == 0) {
+
+		eingabe = _getche();
+		if(syntax == 0 && eingabe == '-')
+			cout << "\a";
+		else {
+			if (eingabe == 'q')
+				break;
 			kompletteEingabe += eingabe;
-			mindNull = 1;
-			break;
 		}
-		else
-			cout << "\a";
-		
-		
-	} while (eingabe == '0');
 
-	if(mindNull==1)
-	do			
-	{
+		if (eingabe == '-') {
+			eingabe = _getche();
+			if (eingabe == 'q')
+				break;
+			if (eingabe == '-')
+			{
+				do {
+					cout << "\a";
+					eingabe = _getche();
 
-		eingabe = _getche();
-		if (eingabe == 'q')
-			break;
-
-		if (eingabe == '0')
+				} while (eingabe == '-');
+			}
 			kompletteEingabe += eingabe;
-		else
-			cout << "\a";
-
-		
-		
-
-
-	} while (eingabe == '0');
-
-
+		}
+	}
+	
 
 	system("cls");
 
