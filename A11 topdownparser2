@@ -1,0 +1,91 @@
+#include <stdio.h>
+#include <iostream>
+
+using namespace std;
+
+char token;
+
+void S(); void A(); void B(); void C();
+
+char scanner()
+{
+	return getchar();
+}
+
+void check(char e_token)
+{
+	if (token == e_token)
+		token = scanner();
+	else
+	{
+		printf("Syntaxfehler: %c erwartet", e_token);
+		while (token != '\n') token = scanner(); // Lesen bis Eingabeende
+	}
+}
+
+void parser()
+{
+	token = scanner();
+	S();
+	while (token != '\n')
+	{
+		printf("Syntaxfehler am Eingabeende\n");
+		token = scanner();
+	}
+}
+
+void S()
+{
+	cout << "S->ABC" << endl;
+	A();
+	B();
+	C();
+}
+
+void A()
+{
+	if (token == 'a')
+	{
+		cout << "A->aB" << endl;
+		check('a');
+		B();
+	}
+	else if(token == 'b')
+	{
+		cout << "A->b" << endl;
+		check('b');
+	}
+	else
+	{
+		cout << "Fehler! Falsche Eingabe";
+	}
+}
+
+void B()
+{
+	if (token == 'b')
+	{
+		cout << "B->bb" << endl;
+		check('b');
+		check('b');
+	}
+	else if (token == 'c')
+	{
+		cout << "B->C" << endl;
+		C();
+	}
+}
+
+void C()
+{
+	if (token == 'c')
+	{
+		cout << "C->c" << endl;
+		check('c');
+	}
+}
+
+void main()
+{
+	while (!feof(stdin)) parser();
+}
