@@ -1,0 +1,83 @@
+#include <stdio.h>
+#include <iostream>
+
+using namespace std;
+
+char token;
+int ergebnis;
+
+void S(); void A(); void B();
+
+char scanner()
+{
+	return getchar();
+}
+
+void check(char e_token)
+{
+	if (token == e_token)
+		token = scanner();
+	else
+	{
+		printf("Syntaxfehler: %c erwartet", e_token);
+		while (token != '\n') token = scanner(); // Lesen bis Eingabeende
+	}
+}
+
+void parser()
+{
+	token = scanner();
+	S();
+	while (token != '\n')
+	{
+		printf("Syntaxfehler am Eingabeende\n");
+		token = scanner();
+	}
+}
+
+void S()
+{
+	cout << "S->A" << endl;
+	A();
+}
+
+void A()
+{
+	if (token == '1')
+	{
+		cout << "A->1B" << endl;
+		check('1');
+		ergebnis = 1;
+		B();
+	}
+	else if (token == '0')
+	{
+		cout << "Fehler! Falsche Eingabe";
+	}
+}
+
+void B()
+{
+	if (token == '1')
+	{
+		cout << "B->1B" << endl;
+		check('1');
+		ergebnis++;
+		B();
+
+	}
+	else if (token == '\n')
+	{
+		cout << endl << "Wert: " << ergebnis << endl;
+		
+	}
+	else
+	{
+		cout << "Fehler! Falsche Eingabe";
+	}
+}
+
+void main()
+{
+	while (!feof(stdin)) parser();
+}
